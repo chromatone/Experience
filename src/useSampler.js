@@ -1,6 +1,7 @@
 import { ref, shallowRef, reactive, watch, onUnmounted } from 'vue'
 import { Sampler, getTransport, Reverb, PingPongDelay } from 'tone'
 import Presets from './presets.json'
+import { useStorage } from '@vueuse/core'
 
 export function useSampler(options = {}) {
     const {
@@ -10,7 +11,7 @@ export function useSampler(options = {}) {
         delay: delayInit = { delayTime: '8t', feedback: 0.5, maxDelay: 40, wet: 0.46 },
     } = options
 
-    const presets = Presets
+    const presets = useStorage(presetKey, Presets)
     const currentPreset = ref(initialPreset)
 
     const sampler = shallowRef(null)
@@ -57,10 +58,10 @@ export function useSampler(options = {}) {
 
     // init from preset
     watch(currentPreset, (p) => {
-        if (!p || !presets[p]) return
+        if (!p || !presets.value[p]) return
         loading.value = true
         progress.value = 0
-        createSampler(presets[p])
+        createSampler(presets.value[p])
     }, { immediate: true })
 
     // react to param changes
@@ -113,7 +114,7 @@ export function useSampler(options = {}) {
         createSampler({ [note]: audioBuffer.value })
     }
 
-    function selectPreset(name) { if (presets[name]) currentPreset.value = name }
+    function selectPreset(name) { if (presets.value[name]) currentPreset.value = name }
 
     function triggerAttack(note, time = '+0.000000001', velocity = 1) { !loading.value ? sampler.value?.triggerAttack(note, time, velocity) : null }
     function triggerRelease(note, time = '+0.000000001') { sampler.value?.triggerRelease(note, time) }
@@ -128,7 +129,7 @@ export function useSampler(options = {}) {
         // nodes
         sampler, reverb, delay,
         // state
-        presets, currentPreset, loading, progress, audioBuffer, params,
+        Presets, presets, currentPreset, loading, progress, audioBuffer, params,
         // actions
         selectPreset, loadFile, loadUrl, triggerAttack, triggerRelease,
     }

@@ -1,6 +1,6 @@
 <script setup>
 import { Midi } from 'tone'
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import { ref, onMounted, onUnmounted, watch, computed, nextTick } from 'vue'
 import { useMIDI } from './src/useMidi'
 
 import { createNoise3D } from 'simplex-noise'
@@ -12,7 +12,7 @@ import { useSampler } from './src/useSampler'
 import globes from './src/globes.yaml'
 const currentGlobe = ref(globes[0])
 
-const { sampler, presets, currentPreset, loading, progress, audioBuffer, params, selectPreset, loadFile, loadUrl, triggerAttack, triggerRelease } = useSampler()
+const { sampler, presets, Presets, currentPreset, loading, progress, audioBuffer, params, selectPreset, loadFile, loadUrl, triggerAttack, triggerRelease } = useSampler()
 
 const { activeNotes, midiNote, guessChords, inputs, keyOffset } = useMIDI()
 
@@ -96,15 +96,21 @@ watch(settingsOpen, open => {
     .p-3.flex.flex-col.gap-2.bg-amber-100.bg-op-20.backdrop-blur-xl.shadow.relative(@click.stop)
       .text-2xl Settings
       p Key Offset {{keyOffset}}
-      input(type="range" :modelValue="keyOffset" @input="keyOffset = Number($event.target.value)" min="-2" max="2" step="1")
+      input(type="range" :value="keyOffset" @input="keyOffset = Number($event.target.value)" min="-2" max="2" step="1")
       label Reverb Wet {{params.reverbWet}}
-      input(type="range" :modelValue="params.reverbWet" @input="params.reverbWet = Number($event.target.value)" min="0" max="1" step="0.01")
+      input(type="range" :value="params.reverbWet" @input="params.reverbWet = Number($event.target.value)" min="0" max="1" step="0.01")
       label Reverb Decay {{params.reverbDecay}}
-      input(type="range" :modelValue="params.reverbDecay" @input="params.reverbDecay = Number($event.target.value)" min="0" max="10" step="0.01")
+      input(type="range" :value="params.reverbDecay" @input="params.reverbDecay = Number($event.target.value)" min="0" max="10" step="0.01")
       label Delay Wet {{params.delayWet}}
-      input(type="range" :modelValue="params?.delayWet" @input="params.delayWet = Number($event.target.value)" min="0" max="1" step="0.01")
+      input(type="range" :value="params?.delayWet" @input="params.delayWet = Number($event.target.value)" min="0" max="1" step="0.01")
       label Delay Feedback {{params.delayFeedback}}
-      input(type="range" :modelValue="params.delayFeedback" @input="params.delayFeedback = Number($event.target.value)" min="0" max="1" step="0.01")
+      input(type="range" :value="params.delayFeedback" @input="params.delayFeedback = Number($event.target.value)" min="0" max="1" step="0.01")
+
+      //- .text-xl Preset "{{currentPreset}}"
+      //- textarea.rounded-xl.text-sm.p-2(rows=8 :value="JSON.stringify(presets[currentPreset], null, 2)")
+      //- .flex
+      //-   button.px-2.border-2.rounded-xl.border-dark(@click="presets[currentPreset] = JSON.parse($event.target.value)") Save
+      //-   button.px-2.border-2.rounded-xl.border-dark(@click="presets[currentPreset] = Presets[currentPreset]") Reset
 
       button.px-2.border-2.rounded-xl.border-dark(@click="settingsOpen = false") ✕ Close
 
