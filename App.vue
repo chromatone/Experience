@@ -84,6 +84,15 @@ watch(settingsOpen, open => {
   else settingsDialog.value.close()
 })
 
+const editedPreset = ref(null)
+const presetDialog = ref()
+const newPresetSample = ref(['C4', ''])
+
+watch(editedPreset, (preset) => {
+  if (preset) presetDialog.value.showModal()
+  else presetDialog.value.close()
+})
+
 </script>
 
 <template lang='pug'>
@@ -116,8 +125,30 @@ watch(settingsOpen, open => {
 
   template(v-if="started")
 
+    dialog.z-300.rounded-2xl.bg-transparent.min-w-90.max-w-100(ref="presetDialog" @close="editedPreset = null" @click.self="editedPreset = null")
+      .p-3.flex.flex-col.gap-2.bg-amber-100.bg-op-20.backdrop-blur-xl.shadow.relative(@click.stop v-if="editedPreset")
+        .flex
+          .text-2xl.flex-1 Preset "{{editedPreset}}"
+          button.px-2.border-2.rounded-xl.border-dark(@click="presets[editedPreset] = Presets[editedPreset]") Reset
+       
+        .p-2.flex.gap-2.w-full.items-center(v-for="url in Object.entries(presets[editedPreset].urls)" :key="url")
+          .font-bold {{url[0]}}
+          .font-mono.text-xs.break-all {{url[1].slice(0, 100)}}
+          button.px-2.border-2.rounded-xl.border-dark(@click="delete presets[editedPreset].urls[url[0]]") ✕
+       
+        .p-2.flex.gap-2.w-full
+          input.rounded-xl.w-10.p-2(type="text" v-model="newPresetSample[0]" placeholder="C4")
+          input.rounded-xl.flex-1.p-2.text-xs(type="text" v-model="newPresetSample[1]" placeholder="URL of the sample file - mp3 or wav")
+          button.px-2.border-2.rounded-xl.border-dark(@click="presets[editedPreset].urls[newPresetSample[0]] = newPresetSample[1]; newPresetSample = ['C4', '']") Add
+          
+
     .flex.flex-wrap.gap-2.justify-center.z-200.flex-1
-      .p-4.op-75.hover-op-85.active-op-100.cursor-pointer.text-center.tracking-wider.transition-700.variable-text.whitespace-nowrap.select-none(v-for="globe in globes" :key="globe.name" @click="currentGlobe = globe; selectPreset(globe.preset)" :class="{'active': currentGlobe.name == globe.name}" style="contain: layout;") {{globe.name}} 
+      .p-4.op-75.hover-op-85.active-op-100.cursor-pointer.text-center.tracking-wider.transition-700.variable-text.whitespace-nowrap.select-none(
+        v-for="globe in globes" :key="globe.name" 
+        @click="currentGlobe = globe; selectPreset(globe.preset)" 
+        :class="{'active': currentGlobe.name == globe.name}" 
+        @dblclick="editedPreset = globe.preset"
+        style="contain: layout;") {{globe.name}} 
 
     .p-4.flex.flex-wrap.gap-8.justify-center.items-center.w-full.flex-auto.z-10(v-if="!novis")
       .flex.items-center.gap-6.flex-wrap.w-full.justify-center
