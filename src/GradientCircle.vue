@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { createNoise3D } from 'simplex-noise'
-import { TransitionPresets, useTransition } from '@vueuse/core'
 import { useSpring } from 'vue-use-spring'
 
 const props = defineProps({
