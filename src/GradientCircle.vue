@@ -2,12 +2,12 @@
 import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { createNoise3D } from 'simplex-noise'
 import { TransitionPresets, useTransition } from '@vueuse/core'
+import { useSpring } from 'vue-use-spring'
 
 const props = defineProps({
   name: { type: String, default: '' },
   active: { type: Boolean, default: false },
-  size: { type: Number, default: 200 },
-  // blobs: [{ color: string, r: number|0..1, base: [x,y]|[0..1,0..1], colorSens?: number, sizeSens?: number, posSens?: number, speed?: number }]
+  size: { type: Number, default: 500 },
   blobs: {
     type: Array, default: () => ([
       { color: 'red', r: 0.4, base: [0.35, 0.45] },
@@ -17,11 +17,16 @@ const props = defineProps({
   },
 })
 
-const activity = useTransition
-  (computed(() => props.active ? 1 : 0), {
-    duration: 500,
-    transition: TransitionPresets.easeInOutCubic,
-  })
+watch(() => props.active, a => {
+  activity.x = a ? 1 : 0
+})
+
+const activity = useSpring({ x: 0 }, {
+  mass: 6,
+  tension: 30,
+  friction: 12,
+  precision: 0.005,
+})
 
 // internal fallbacks when a blob doesn't specify its own
 const DEFAULTS = { posSens: 1.0, sizeSens: 0.15, colorSens: 0.5, speed: 0.00025 }
@@ -46,16 +51,16 @@ let rafId = 0
 let lastTime = 0
 
 function animate(time) {
-  const dt = lastTime ? Math.min(1 / 15, (time - lastTime) / 1000) : 0 // cap dt to avoid large jumps
+  const dt = lastTime ? Math.min(1 / 25, (time - lastTime) / 1000) : 0 // cap dt to avoid large jumps
   lastTime = time
   // smooth noise-driven motion for turbulence offsets (no circular drift)
   const tz = time * 0.00035 + seed.value * 0.001
-  turb.value.mx = noise3D(0.13, 0.57, tz) * 25 * activity.value
-  turb.value.my = noise3D(0.73, 0.19, tz + 17.3) * 25 * activity.value
-  turb.value.gx = noise3D(0.41, 0.83, tz + 33.7) * 12 * activity.value
-  turb.value.gy = noise3D(0.91, 0.27, tz + 59.1) * 12 * activity.value
+  turb.value.mx = noise3D(0.13, 0.57, tz)
+  turb.value.my = noise3D(0.73, 0.19, tz + 17.3)
+  turb.value.gx = noise3D(0.41, 0.83, tz / 2 + 33.7)
+  turb.value.gy = noise3D(0.91, 0.27, tz / 2 + 59.1)
   props.blobs.forEach((b, i) => {
-    const S = props.size ?? 200
+    const S = props.size ?? 300
 
     // ensure array slots exist if blobs length changes dynamically
     if (!positions.value[i]) positions.value[i] = { cx: S / 2, cy: S / 2, r: 1, op: 1 }
@@ -78,7 +83,7 @@ function animate(time) {
     bases.value[i].rBase += (targetR - bases.value[i].rBase) * k
 
     // scale motion amplitude with component size (~ per unit posSens)
-    const ampPos = S * posSens * 0.08
+    const ampPos = S * posSens * 0.8
     const z = time * speed
 
     // normalize inputs so noise pattern is scale-agnostic
@@ -138,11 +143,6 @@ watch(() => props.blobs, (blobs) => {
   bases.value = newBases
 }, { deep: true })
 
-watch(activity, a => {
-  if (a == 0) {
-    seed.value = Math.floor(Math.random() * 10000)
-  }
-})
 
 watch(() => props.name, () => {
   grainSeed.value = Math.floor(Math.random() * 10000)
@@ -151,36 +151,35 @@ watch(() => props.name, () => {
 </script>
 
 <template lang="pug">
-svg.scale-120(:viewBox="`0 0 ${size} ${size}`" :width="size" :height="size")
+svg(:viewBox="`0 0 ${size} ${size}`" :width="size" :height="size" :style="{filter: `blur(${activity.x* 20}px)`, transform: `scale(${1+activity.x*.8+turb.gx*.3*activity.x}) rotateZ(${turb.mx*50*activity.x}deg) rotateX(${turb.gy*10*activity.x}deg) rotateY(${turb.my*15*activity.x}deg)`}"  )
   defs
-    filter#soft(color-interpolation-filters="sRGB")
-      feGaussianBlur(stdDeviation="82")
-
+    filter#soft(color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse")
+      feGaussianBlur(stdDeviation="40")
     
     filter#maskDistort(color-interpolation-filters="sRGB" 
       filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse"
       :x="-size * 0.25" :y="-size * 0.25" :width="size * 1.5" :height="size * 1.5")
-      feTurbulence(type="fractalNoise" :baseFrequency="0.005*activity"  numOctaves="1" :seed result="noise")
+      feTurbulence(type="fractalNoise" :baseFrequency="0.005*activity.x"  numOctaves="1" :seed result="noise")
       feOffset(in="noise" :dx="turb.mx" :dy="turb.my" result="noiseShifted")
-      feDisplacementMap(in="SourceGraphic" in2="noiseShifted" :scale="activity * 60" xChannelSelector="R" yChannelSelector="G")
+      feDisplacementMap(in="SourceGraphic" in2="noiseShifted" :scale="activity.x * 60" xChannelSelector="R" yChannelSelector="G")
     
     mask#round
       rect(:width="size" :height="size" fill="black")
       // Apply the distortion filter to the white mask circle
-      circle(:cx="size/2" :cy="size/2" :r="size/2-40+activity*20" fill="white" filter="url(#maskDistort)")
+      circle(:cx="size/2" :cy="size/2" :r="size/2-40+activity.x*20" fill="white" filter="url(#maskDistort)")
     
-    filter#grain(
-      color-interpolation-filters="sRGB"
-      filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse"
-      :x="-size * 0.25" :y="-size * 0.25" :width="size * 1.5" :height="size * 1.5"
-      )
-      feGaussianBlur(in="SourceGraphic" stdDeviation="20" result="blur")
-      feTurbulence(type="fractalNoise" baseFrequency="0.01" numOctaves="4" :seed="grainSeed" stitchTiles="stitch" result="noise")
-      feOffset(in="noise" :dx="turb.gx" :dy="turb.gy" result="noiseShifted")
-      feDisplacementMap(in="blur" in2="noiseShifted" :scale="25 + 35*activity" xChannelSelector="R" yChannelSelector="G" result="dist")
-      feComposite(in="dist" in2="dist" operator="over")
+    //- filter#grain(
+    //-   color-interpolation-filters="sRGB"
+    //-   filterUnits="userSpaceOnUse" primitiveUnits="userSpaceOnUse"
+    //-   :x="-size * 0.25" :y="-size * 0.25" :width="size * 1.5" :height="size * 1.5"
+    //-   )
+    //-   feGaussianBlur(in="SourceGraphic" stdDeviation="20" result="blur")
+    //-   feTurbulence(type="fractalNoise" baseFrequency="0.01" numOctaves="4" :seed="grainSeed" stitchTiles="stitch" result="noise")
+    //-   feOffset(in="noise" :dx="turb.gx" :dy="turb.gy" result="noiseShifted")
+    //-   feDisplacementMap(in="blur" in2="noiseShifted" :scale="25 + 35*activity" xChannelSelector="R" yChannelSelector="G" result="dist")
+    //-   feComposite(in="dist" in2="dist" operator="over")
   
-  g(filter="url(#grain)"  mask="url(#round)")
+  g(mask="url(#round)")
     circle(v-for="(b,i) in blobs" :key="i" filter="url(#soft)"
             :cx="positions[i].cx" :cy="positions[i].cy" :r="positions[i].r"
             :fill="b.color" :fill-opacity="positions[i].op"

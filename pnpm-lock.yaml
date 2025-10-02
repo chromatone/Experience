@@ -32,6 +32,9 @@ importers:
       vue-router:
         specifier: ^4.5.1
         version: 4.5.1(vue@3.6.0-alpha.2)
+      vue-use-spring:
+        specifier: ^0.3.3
+        version: 0.3.3(vue@3.6.0-alpha.2)
       webmidi:
         specifier: ^3.1.12
         version: 3.1.12
@@ -1257,6 +1260,17 @@ packages:
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
+  vue-demi@0.14.10:
+    resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
+    engines: {node: '>=12'}
+    hasBin: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+
   vue-flow-layout@0.2.0:
     resolution: {integrity: sha512-zKgsWWkXq0xrus7H4Mc+uFs1ESrmdTXlO0YNbR6wMdPaFvosL3fMB8N7uTV308UhGy9UvTrGhIY7mVz9eN+L0Q==}
 
@@ -1264,6 +1278,15 @@ packages:
     resolution: {integrity: sha512-ogAF3P97NPm8fJsE4by9dwSYtDwXIY1nFY9T6DyQnGHd1E2Da94w9JIolpe42LJGIl0DwOHBi8TcRPlPGwbTtw==}
     peerDependencies:
       vue: ^3.2.0
+
+  vue-use-spring@0.3.3:
+    resolution: {integrity: sha512-738mdx7XwDHrmP22T5SqKltKTRfvjHS0D/4p9XEuxgUE/gYDC/PqlxUTnRtG3i05oT1cwwU1e9ZNLsxDbJJVvw==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      vue: ^2.6.12 || ^3.0.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
 
   vue@3.6.0-alpha.2:
     resolution: {integrity: sha512-xn3jwLo6eMqxEKEAW8TWX+KSm7K2jTrNZ5Q3+H5Bu9P3mkoz8w0lUQHrO5WcnSVZfmR7vvw4/5XSYQe2XeDzdw==}
@@ -2622,12 +2645,21 @@ snapshots:
 
   vscode-uri@3.1.0: {}
 
+  vue-demi@0.14.10(vue@3.6.0-alpha.2):
+    dependencies:
+      vue: 3.6.0-alpha.2
+
   vue-flow-layout@0.2.0: {}
 
   vue-router@4.5.1(vue@3.6.0-alpha.2):
     dependencies:
       '@vue/devtools-api': 6.6.4
       vue: 3.6.0-alpha.2
+
+  vue-use-spring@0.3.3(vue@3.6.0-alpha.2):
+    dependencies:
+      vue: 3.6.0-alpha.2
+      vue-demi: 0.14.10(vue@3.6.0-alpha.2)
 
   vue@3.6.0-alpha.2:
     dependencies:

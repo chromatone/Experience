@@ -13,7 +13,7 @@ export const outputs = shallowReactive({})
 export const activeNotes = reactive({})
 export const midiLog = shallowReactive([])
 
-export const keyOffset = useClamp(0, -2, 4)
+export const keyOffset = useStorage('keyOffset', useClamp(0, -2, 4))
 
 export const midi = reactive({
   initiated: false,
@@ -32,7 +32,8 @@ export const midiNote = reactive({
 
 export const guessChords = computed(() => {
   const list = Object.entries(activeNotes).filter(([_, v]) => v).map(([n]) => Midi(Number(n)).toNote());
-  return Chord.detect(list)
+  const chords = Chord.detect(list)
+  return chords.length ? chords : list
 })
 
 export function initMidi() {

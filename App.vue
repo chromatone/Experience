@@ -40,38 +40,11 @@ const globeWithNotes = computed(() => {
   }
 })
 
-
-
-
-const turb = ref({ x: 0, y: 0, r: 0 })
 const active = computed(() => Object.entries(activeNotes).filter(e => e[1] > 0).length ? 1 : 0)
-const smoothActive = useTransition(active, {
-  duration: 2000,
-  transition: TransitionPresets.easeInOutSine,
-})
-
-let rafId = 0
-let lastTime = 0
-
-const noise3D = createNoise3D()
-
-function animate(time) {
-  const dt = lastTime ? Math.min(1 / 15, (time - lastTime) / 1000) : 0 // cap dt to avoid large jumps
-  lastTime = time
-  const tz = time * 0.000015
-  turb.value.x = noise3D(0.13, 0.57, tz) * smoothActive.value
-  turb.value.y = noise3D(10, 20, tz) * smoothActive.value
-  turb.value.z = noise3D(30, 40, tz) * smoothActive.value
-  turb.value.r = ((noise3D(60, 40, tz) + 1) / 2) * smoothActive.value
-  rafId = requestAnimationFrame(animate)
-}
 
 onMounted(() => {
-  rafId = requestAnimationFrame(animate)
   novis.value = window.location.hash == '#novis'
 })
-
-onUnmounted(() => cancelAnimationFrame(rafId))
 
 const started = ref(false)
 const novis = ref(false)
@@ -96,10 +69,11 @@ watch(editedPreset, (preset) => {
 </script>
 
 <template lang='pug'>
-.flex.flex-col.items-center.w-full.h-100svh.justify-between.text-white
-  img.z-10.w-90.mt-12.mb-8.z-200(src="/logo_la_mer_white.svg")
+.flex.flex-col.items-center.w-full.h-100svh.justify-between.text-white.overflow-hidden
+  img.z-10.w-100.mt-12.mb-8.z-200.invert(src="/PLTR_LaMerLogos.svg")
 
-  button.p-4.top-2.right-2.absolute.op-10.hover-op-100.transition.text-xl(@click="settingsOpen = !settingsOpen") ⚙️
+  button.p-4.top-2.left-2.absolute.op-10.hover-op-100.transition.text-sm(@click="started = !started") Help
+  button.p-4.top-2.right-2.absolute.op-10.hover-op-100.transition.text-sm(@click="settingsOpen = !settingsOpen") Settings
 
   dialog.z-300.rounded-2xl.bg-transparent.min-w-60(ref="settingsDialog" @close="settingsOpen = false" @click.self="settingsOpen = false")
     .p-3.flex.flex-col.gap-2.bg-amber-100.bg-op-20.backdrop-blur-xl.shadow.relative(@click.stop)
@@ -153,8 +127,7 @@ watch(editedPreset, (preset) => {
     .p-4.flex.flex-wrap.gap-8.justify-center.items-center.w-full.flex-auto.z-10(v-if="!novis")
       .flex.items-center.gap-6.flex-wrap.w-full.justify-center
         .flex.text-center.relative.justify-center.items-start.flex-col(style="perspective: 1000px; transform-style: preserve-3d;")
-          GradientCircle(:size="400"
-            :style="{transform: `scale(${1+smoothActive*1+turb.r*1}) rotateZ(${turb.z*120}deg) rotateX(${turb.x*25}deg) rotateY(${turb.y*25}deg)`}" 
+          GradientCircle(
             :active="!!active"
             v-bind="globeWithNotes")
 

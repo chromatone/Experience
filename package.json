@@ -26,6 +26,7 @@
 		"tone": "^15.1.22",
 		"vue": "3.6.0-alpha.2",
 		"vue-router": "^4.5.1",
+		"vue-use-spring": "^0.3.3",
 		"webmidi": "^3.1.12"
 	},
 	"devDependencies": {

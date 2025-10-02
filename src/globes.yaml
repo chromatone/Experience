@@ -4,23 +4,23 @@
     - color: "#F18EDC"
       r: 0.64
       base: [0.2, 0.2]
-      posSens: 0.5
+      posSens: 0.3
       sizeSens: 1.25
       colorSens: 0.2
       speed: 0.00005
     - color: "#FF8874"
       r: 0.38
       base: [0.66, 0.1]
-      posSens: 0.5
+      posSens: 0.9
       sizeSens: .30
       colorSens: 0.7
       speed: 0.00015
     - color: "#F1C180"
       r: 0.32
       base: [0.50, 0.90]
-      posSens: 0.05
-      sizeSens: 0.30
-      colorSens: 0.2
+      posSens: 0.2
+      sizeSens: 1.30
+      colorSens: 0.9
       speed: 0.00025
 
 - name: Rejuvenating Night Cream
@@ -29,7 +29,7 @@
     - color: "#608EFF"
       r: 0.52
       base: [0.30, 0.30]
-      posSens: 0.5
+      posSens: 0.2
       sizeSens: 1.22
       colorSens: 0.1
       speed: 0.00025
@@ -43,7 +43,7 @@
     - color: "#FF8DFF"
       r: 0.35
       base: [0.52, 0.88]
-      posSens: 0.05
+      posSens: 0.45
       sizeSens: 1.28
       colorSens: 0.55
       speed: 0.00025
@@ -54,23 +54,23 @@
     - color: "#3C884A"
       r: 0.48
       base: [0.88, 0.44]
-      posSens: 0.05
+      posSens: 0.15
       sizeSens: 0.20
       colorSens: 0.1
       speed: 0.00025
     - color: "#4DC1D5"
       r: 0.36
       base: [0.50, 0.92]
-      posSens: 0.5
+      posSens: 0.7
       sizeSens: 1.30
       colorSens: 0.5
       speed: 0.00025
     - color: "#E9A650"
       r: 0.43
       base: [0.18, 0.20]
-      posSens: 0.05
+      posSens: 0.25
       sizeSens: 0.64
-      colorSens: 0.1
+      colorSens: 0.7
       speed: 0.00025
 
 - name: Fresh Cream
