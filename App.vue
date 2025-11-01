@@ -70,8 +70,7 @@ watch(editedPreset, (preset) => {
 
 <template lang='pug'>
 .flex.flex-col.items-center.w-full.h-100svh.justify-between.text-white.overflow-hidden
-  img.z-10.w-100.mt-12.mb-8.z-200.invert(src="/PLTR_LaMerLogos.svg")
-
+ 
   button.p-4.top-2.left-2.absolute.op-10.hover-op-100.transition.text-sm(@click="started = !started") Help
   button.p-4.top-2.right-2.absolute.op-10.hover-op-100.transition.text-sm(@click="settingsOpen = !settingsOpen") Settings
 
