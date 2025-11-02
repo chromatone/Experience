@@ -1,42 +1,29 @@
-const CACHE_NAME = 'elements-cache-v.0.5.0';
-const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/logo.svg',
-];
+const CACHE = 'v1';
 
-// Install Service Worker
-self.addEventListener('install', (event) => {
-  self.skipWaiting()
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
-  );
+self.addEventListener('install', e => {
+  self.skipWaiting();
 });
 
-// Activate Service Worker
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName); // Clean up old caches
+self.addEventListener('activate', e => {
+  e.waitUntil(self.clients.claim());
+});
+
+self.addEventListener('fetch', e => {
+  e.respondWith(
+    caches.open(CACHE).then(cache => {
+      return cache.match(e.request).then(cached => {
+        // Serve cached version immediately
+        const fetchPromise = fetch(e.request).then(response => {
+          // Update cache in background
+          if (response.ok) {
+            cache.put(e.request, response.clone());
           }
-        })
-      );
-    })
-  );
-  self.clients.claim();
-});
+          return response;
+        }).catch(() => cached); // Fallback to cache on network error
 
-// Fetch assets (serve from cache or network)
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      // Return cached response if available, otherwise fetch from network
-      return cachedResponse || fetch(event.request);
+        // Return cached immediately, or fetch if not cached
+        return cached || fetchPromise;
+      });
     })
   );
 });
