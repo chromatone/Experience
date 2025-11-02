@@ -29,6 +29,9 @@ importers:
       vue:
         specifier: 3.6.0-alpha.2
         version: 3.6.0-alpha.2
+      vue-color:
+        specifier: ^3.3.3
+        version: 3.3.3(vue@3.6.0-alpha.2)
       vue-router:
         specifier: ^4.5.1
         version: 4.5.1(vue@3.6.0-alpha.2)
@@ -960,6 +963,9 @@ packages:
   magic-string@0.30.18:
     resolution: {integrity: sha512-yi8swmWbO17qHhwIBNeeZxTceJMeBvWJaId6dyvTSOwTipqeHhMhOrz6513r1sOKnpvQ7zkhlG8tPrpilwTxHQ==}
 
+  material-colors@1.2.6:
+    resolution: {integrity: sha512-6qE4B9deFBIa9YSpOc9O0Sgc43zTeVYbgDT5veRKSlB2+ZuHNoVVxA1L/ckMUayV9Ay9y7Z/SZCLcGteW9i7bg==}
+
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
@@ -1122,6 +1128,9 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  tinycolor2@1.6.0:
+    resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==}
+
   tinyexec@1.0.1:
     resolution: {integrity: sha512-5uC6DDlmeqiOwCPmK9jMSdOuZTh8bU39Ys6yidB+UTt5hfZUPGAypSgFRiEp+jbi9qH40BLDvy85jIU88wKSqw==}
 
@@ -1259,6 +1268,11 @@ packages:
 
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
+
+  vue-color@3.3.3:
+    resolution: {integrity: sha512-FW/9JXFbCHfFEGv6SFUuK/SE+K61pHoL7lxJMQXcU+Zt7s36Ui1/tMDc3vzGXPrxxRBB+NSzFt+71nEaUJ29dQ==}
+    peerDependencies:
+      vue: '>=2.7.0 <4.0.0'
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -2277,6 +2291,8 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  material-colors@1.2.6: {}
+
   math-intrinsics@1.1.0: {}
 
   mdn-data@2.12.2: {}
@@ -2489,6 +2505,8 @@ snapshots:
       source-map-support: 0.5.21
     optional: true
 
+  tinycolor2@1.6.0: {}
+
   tinyexec@1.0.1: {}
 
   tinyglobby@0.2.14:
@@ -2644,6 +2662,12 @@ snapshots:
   vscode-languageserver-types@3.17.5: {}
 
   vscode-uri@3.1.0: {}
+
+  vue-color@3.3.3(vue@3.6.0-alpha.2):
+    dependencies:
+      material-colors: 1.2.6
+      tinycolor2: 1.6.0
+      vue: 3.6.0-alpha.2
 
   vue-demi@0.14.10(vue@3.6.0-alpha.2):
     dependencies:

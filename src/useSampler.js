@@ -11,7 +11,7 @@ export function useSampler(options = {}) {
         delay: delayInit = { delayTime: '8t', feedback: 0.5, maxDelay: 40, wet: 0.46 },
     } = options
 
-    const presets = useStorage(presetKey, Presets)
+    const presets = ref(Presets)
     const currentPreset = ref(initialPreset)
 
     const sampler = shallowRef(null)
@@ -116,8 +116,8 @@ export function useSampler(options = {}) {
 
     function selectPreset(name) { if (presets.value[name]) currentPreset.value = name }
 
-    function triggerAttack(note, time = '+0.000000001', velocity = 1) { !loading.value ? sampler.value?.triggerAttack(note, time, velocity) : null }
-    function triggerRelease(note, time = '+0.000000001') { sampler.value?.triggerRelease(note, time) }
+    function triggerAttack(note = 'C4', time = '+0.000000001', velocity = 1) { !loading.value ? sampler.value?.triggerAttack(note, time, velocity) : null }
+    function triggerRelease(note = 'C4', time = '+0.000000001') { sampler.value?.triggerRelease(note, time) }
 
     onUnmounted(() => {
         disposeSampler()

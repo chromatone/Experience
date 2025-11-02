@@ -1,33 +1,33 @@
 {
-	"dela": {
+	"alpha": {
 		"urls": {
-			"C3": "https://davay42.github.io/la_mer/samples/flute.mp3",
-			"C4": "https://davay42.github.io/la_mer/samples/flute2.mp3",
-			"C5": "https://davay42.github.io/la_mer/samples/flute3.mp3"
+			"C3": "https://experience.playtronica.com/samples/flute.mp3",
+			"C4": "https://experience.playtronica.com/samples/flute2.mp3",
+			"C5": "https://experience.playtronica.com/samples/flute3.mp3"
 		},
 		"release": 1
 	},
-	"night": {
+	"beta": {
 		"urls": {
-			"C4": "https://davay42.github.io/la_mer/samples/sea1.mp3",
-			"C5": "https://davay42.github.io/la_mer/samples/sea2.mp3",
-			"C6": "https://davay42.github.io/la_mer/samples/sea3.mp3"
+			"C4": "https://experience.playtronica.com/samples/sea1.mp3",
+			"C5": "https://experience.playtronica.com/samples/sea2.mp3",
+			"C6": "https://experience.playtronica.com/samples/sea3.mp3"
 		},
 		"release": 1
 	},
-	"soft": {
+	"gamma": {
 		"urls": {
-			"C3": "https://davay42.github.io/la_mer/samples/osmose1.mp3",
-			"C4": "https://davay42.github.io/la_mer/samples/osmose2.mp3",
-			"C5": "https://davay42.github.io/la_mer/samples/osmose3.mp3"
+			"C3": "https://experience.playtronica.com/samples/osmose1.mp3",
+			"C4": "https://experience.playtronica.com/samples/osmose2.mp3",
+			"C5": "https://experience.playtronica.com/samples/osmose3.mp3"
 		},
 		"release": 1
 	},
-	"fresh": {
+	"omega": {
 		"urls": {
-			"C3": "https://davay42.github.io/la_mer/samples/zebra1.mp3",
-			"C4": "https://davay42.github.io/la_mer/samples/zebra2.mp3",
-			"C5": "https://davay42.github.io/la_mer/samples/zebra3.mp3"
+			"C3": "https://experience.playtronica.com/samples/zebra1.mp3",
+			"C4": "https://experience.playtronica.com/samples/zebra2.mp3",
+			"C5": "https://experience.playtronica.com/samples/zebra3.mp3"
 		},
 		"release": 1
 	}
