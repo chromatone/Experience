@@ -1,18 +1,6 @@
-# sampler
+# Experience
 
 Simple, but reliable sampler synth web-app
-
-## TODO
-
-### Controls
-
-- reverb & delay size and mix
-- ADSR
-- Filter
-- LFO
-- Pitch
-- Mono/poly
-- Scale
 
 ### Screens
 
@@ -31,3 +19,15 @@ musical note
 The musical content presented on this site is for non-commercial use only.
 If your computer is slow, try playing without visuals.
 Please email support@playtronica.com for assistance. We are here for you.
+
+## TODO
+
+### Controls
+
+- [x] reverb & delay size and mix
+- [ ] ADSR
+- [ ] Filter
+- [ ] LFO
+- [ ] Pitch
+- [ ] Mono/poly
+- [ ] Scale
