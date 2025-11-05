@@ -1,5 +1,5 @@
 - name: Crème de la Mer
-  preset: dela
+  preset: alpha
   blobs:
     - color: "#F18EDC"
       r: 0.64
@@ -24,7 +24,7 @@
       speed: 0.00025
 
 - name: Rejuvenating Night Cream
-  preset: night
+  preset: beta
   blobs:
     - color: "#608EFF"
       r: 0.52
@@ -49,7 +49,7 @@
       speed: 0.00025
 
 - name: Moisturizing Soft Cream
-  preset: soft
+  preset: gamma
   blobs:
     - color: "#3C884A"
       r: 0.48
@@ -74,7 +74,7 @@
       speed: 0.00025
 
 - name: Fresh Cream
-  preset: fresh
+  preset: omega
   blobs:
     - color: "#2469e1"
       r: 0.42
