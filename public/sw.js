@@ -1,4 +1,4 @@
-const CACHE = 'app-cache-v1';  // bump this to update cache
+const CACHE = 'app-cache-v2';  // bump this to update cache
 const PRECACHE_ASSETS = [
   '/',            // the root
   '/index.html',  // your entry point
