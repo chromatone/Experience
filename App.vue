@@ -105,11 +105,11 @@ function stopNote(note = 60) {
 <template lang='pug'>
 .flex.flex-col.items-center.justify-center.w-full.h-100svh.text-white.overflow-hidden(:style="{backgroundColor: color}")
 
-  button.p-4.top-2.left-2.absolute.op-30.hover-op-100.transition.text-sm.z-200(@click="started = !started" aria-label="Help" title="Help") Help
-  button.p-4.bottom-2.right-2.absolute.op-30.hover-op-100.transition.text-sm.z-200(@click="settingsOpen = !settingsOpen" aria-label="Audio Settings" title="Audio Settings") Audio
-  button.p-4.bottom-2.left-2.absolute.op-30.hover-op-100.transition.text-sm.z-200(@click="editedPreset = currentGlobe.preset" aria-label="Sounds" title="Edit sounds") Sounds
+  button.p-4.top-2.left-2.absolute.op-50.hover-op-100.transition.text-sm.z-200(@click="started = !started" aria-label="Help" title="Help") Help
+  button.p-4.bottom-2.right-2.absolute.op-10.hover-op-100.transition.text-sm.z-200(@click="settingsOpen = !settingsOpen" aria-label="Audio Settings" title="Audio Settings") Audio
+  button.p-4.bottom-2.left-2.absolute.op-10.hover-op-100.transition.text-sm.z-200(@click="editedPreset = currentGlobe.preset" aria-label="Sounds" title="Edit sounds") Sounds
 
-  button.p-4.top-2.right-2.absolute.op-30.hover-op-100.transition.text-sm.z-200(@click="visualSettingsOpen = !visualSettingsOpen" aria-label="Visuals" title="Visuals") Visuals
+  button.p-4.top-2.right-2.absolute.op-10.hover-op-100.transition.text-sm.z-200(@click="visualSettingsOpen = !visualSettingsOpen" aria-label="Visuals" title="Visuals") Visuals
 
   dialog.z-300.rounded-2xl.bg-transparent.min-w-60(ref="visualSettingsDialog" @close="visualSettingsOpen = false" @click.self="visualSettingsOpen = false")
     .p-4.flex.flex-col.gap-2.bg-amber-100.bg-op-20.backdrop-blur-xl.shadow.relative(@click.stop)
