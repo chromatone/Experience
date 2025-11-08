@@ -28,8 +28,8 @@ function viteBuildScript() {
   return {
     name: 'vite-build-script',
     transformIndexHtml(html) {
-      if (process.env.NODE_ENV === 'production-EXCLUDED FOR INITIAL DEV') {
-        return html.replace(/<!-- Stats production build insert -->/, `<script async defer src="https://stats.chromatone.center/script.js" data-website-id="c3ed9c03-7d29-4936-95b8-99e26d198c42"></script>
+      if (process.env.NODE_ENV === 'production') {
+        return html.replace('</head>', `<script async defer src="https://stats.chromatone.center/script.js" data-website-id="a264a4d1-a96f-48b7-9868-9d3074e6a0dc"></script>
           <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -42,7 +42,9 @@ function viteBuildScript() {
           });
       });
     }
-  </script>`);
+  </script>
+  
+  </head>`);
       }
       return html;
     },
